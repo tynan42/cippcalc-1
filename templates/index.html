@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CIPP Calculator</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../static/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="../static/css/default.css"/>
+<link rel="stylesheet" type="text/css" href="../static/css/validation.css"/>
+<script type="text/javascript" src="../static/default.js"></script>
+<script type="text/javascript" src="../static/jquery-1.11.1.min.js"></script>
+</head>
+
+<body>    
+	<form action="" method="POST" autocomplete="off">
+		<div class="banner">
+		<h1>CIPP Thickness Calculator</h1>
+		</div>
+		<div class="row1">
+		<fieldset class="cola">
+			<legend>Mandatory Inputs
+			</legend>
+			<p>
+				<label>Design Condition
+				</label>
+				{% if error %}{% if error["design_condition"] %}
+				<input name="design_condition" class="errorbox" type="text" list="designcndt" value="{{return_vars['design_condition']}}" onblur="error_border_remove('design_condition')"/>
+				{% else %}
+				<input name="design_condition" class="noalert" type="text" list="designcndt" value="{{return_vars['design_condition']}}"/>
+				{% endif %}{% else %}
+				<input name="design_condition" class="noalert" type="text" list="designcndt" value="{{return_vars['design_condition']}}"/>
+				{% endif %}
+					<datalist id="designcndt">
+					<option value="Fully Deteriorated"/>
+					<option value="Partially Deteriorated"/>
+					</datalist>
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Design Condition</strong>
+					</br>
+					Fully deteriorated condition is designed to support hydraulic, soil, and live loads. 
+					The groundwater level, soil type and depth, and live load should be determined by the engineer.</br></br>
+					Partially deteriorated condition is designed to support the hydraulic loads due to groundwater, 
+					since the soil and surcharge loads can be supported by the original pipe. The soil adjacent to the 
+					existing pipe must provide adequate side support. The pipe may have longitudinal cracks and up to 10.0% distortion 
+					of the diameter.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Location
+				</label>
+				{% if error %}{% if error["location"] %}
+				<input name="location" class="errorbox" type="text" list="location_list"/ value="{{return_vars['location']}}" onblur="error_border_remove('location')">
+				{% else %}
+				<input name="location" class="noalert" type="text" list="location_list"/ value="{{return_vars['location']}}">
+				{% endif %}{% else %}
+				<input name="location" class="noalert" type="text" list="location_list"/ value="{{return_vars['location']}}">
+				{% endif %}
+					<datalist id="location_list">
+					<option value="Highway"/>
+					<option value="Rail"/>
+					<option value="Airport"/>
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Pipe Location</strong>
+					</br>
+					Use this option to apply standard AASHTO HS-20 Highway, Cooper E-80 railroad, 
+					or 180 kip airplane gear assembly live loads. The values of the live load pressures 
+					are calculated with respect to depth and include an impact factor of 1.5 to account 
+					for bumps and irregularities in the travelled surface.</br></br>
+					See <a href="http://www.americanlifelinesalliance.com/pdf/Update061305.pdf">American Lifelines Alliance</a> 
+					for additional details.
+					</span>
+				</div>
+			 </p>
+			 <p>
+				<label>Host Pipe Diameter
+				</label>
+				{% if error %}{% if error["host_diameter"] %}
+				<input name="host_diameter" type="number" min="4" max="96" class="medium errorbox" value="{{ return_vars['host_diameter'] }}" onblur="error_border_remove('host_diameter')"/>
+				{% else %}{% if warning %}{% if warning["host_diameter"] %}
+				<input name="host_diameter" type="number" min="4" max="96" class="medium warningbox" value="{{ return_vars['host_diameter'] }}" onblur="error_border_remove('host_diameter')"/>
+				{% else %}
+				<input name="host_diameter" type="number" min="4" max="96" class="medium noalert" value="{{ return_vars['host_diameter'] }}"/>
+				{% endif %}{% else %}
+				<input name="host_diameter" type="number" min="4" max="96" class="medium noalert" value="{{ return_vars['host_diameter'] }}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["host_diameter"] %}
+				<input name="host_diameter" type="number" min="4" max="96" class="medium warningbox" value="{{ return_vars['host_diameter'] }}" onblur="error_border_remove('host_diameter')"/>
+				{% else %}
+				<input name="host_diameter" type="number" min="4" max="96" class="medium noalert" value="{{ return_vars['host_diameter'] }}"/>
+				{% endif %}{% else %}
+				<input name="host_diameter" type="number" min="4" max="96" class="medium noalert" value="{{ return_vars['host_diameter'] }}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Inside Diameter of Host Pipe</strong>
+					</br>
+					<p><img src="../static/images/OD_Pipe.jpg" height="150" style="float:right;padding:20px;"/></p></br>
+					Enter the inside diameter in inches of the host pipe to receive the CIPP.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Depth to Invert
+				</label>
+				{% if error %}{% if error["surface_to_invert"] %}
+				<input name="surface_to_invert" type="text" class="medium errorbox" value="{{ return_vars['surface_to_invert'] }}" onblur="error_border_remove('surface_to_invert')"/>
+				{% else %}{% if warning %}{% if warning["surface_to_invert"] %}
+				<input name="surface_to_invert" type="text" class="medium warningbox" value="{{ return_vars['surface_to_invert'] }}" onblur="error_border_remove('surface_to_invert')"/>
+				{% else %}
+				<input name="surface_to_invert" type="text" class="medium noalert" value="{{ return_vars['surface_to_invert'] }}"/>
+				{% endif %}{% else %}
+				<input name="surface_to_invert" type="text" class="medium noalert" value="{{ return_vars['surface_to_invert'] }}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["surface_to_invert"] %}
+				<input name="surface_to_invert" type="text" class="medium warningbox" value="{{ return_vars['surface_to_invert'] }}" onblur="error_border_remove('surface_to_invert')"/>
+				{% else %}
+				<input name="surface_to_invert" type="text" class="medium noalert" value="{{ return_vars['surface_to_invert'] }}"/>
+				{% endif %}{% else %}
+				<input name="surface_to_invert" type="text" class="medium noalert" value="{{ return_vars['surface_to_invert'] }}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Depth from Surface to Invert</strong>
+					</br>
+					<p><img src="../static/images/depth_to_inv.png" height="220" style="float:right;"/></p></br>
+					Enter the greatest depth from ground surface to invert of host pipe.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Groundwater Depth
+				</label>
+				{% if error %}{% if error["gw_level"] %}
+				<input name="gw_level" type="text" class="medium errorbox" value="{{return_vars['gw_level']}}" onblur="error_border_remove('gw_level')"//>
+				{% else %}{% if warning %}{% if warning["gw_level"] %}
+				<input name="gw_level" type="text" class="medium warningbox" value="{{return_vars['gw_level']}}" onblur="error_border_remove('gw_level')"//>
+				{% else %}
+				<input name="gw_level" type="text" class="medium noalert" value="{{return_vars['gw_level']}}"/>
+				{% endif %}{% else %}
+				<input name="gw_level" type="text" class="medium noalert" value="{{return_vars['gw_level']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["gw_level"] %}
+				<input name="gw_level" type="text" class="medium warningbox" value="{{return_vars['gw_level']}}" onblur="error_border_remove('gw_level')"//>
+				{% else %}
+				<input name="gw_level" type="text" class="medium noalert" value="{{return_vars['gw_level']}}"/>
+				{% endif %}{% else %}
+				<input name="gw_level" type="text" class="medium noalert" value="{{return_vars['gw_level']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Depth to Groundwater Table</strong>
+					</br>
+					<p><img src="../static/images/depth_to_gw.png" height="220" style="float:right;"/></br></p></br>
+					Enter the smallest depth from ground surface to highest evident water table. Leave blank
+					for unknown conditions (assumes groundwater at surface). To exclude groundwater pressures,
+					enter a depth for the water table that is deeper than the host pipe.
+					</span>
+				</div>
+			</p>
+		</fieldset>
+		<fieldset class="colb">
+			<legend> &nbsp
+			</legend>
+			<div class="outputs">
+
+				{% if error %}
+				<div class="error">
+				{% for key, value in error.items() %}
+				<p> • {{ value[0] }}</p>
+				{% endfor %}
+				</div>
+				{% endif%}
+				
+				{% if error %}{% if warning %}{% for key, value in messages.items() %}{% if key not in error %}
+				<div class="warning"><p> • {{ value[0] }}</p></div>
+				{% endif  %}{% endfor %}{% endif %}{% else %}{% if warning %}{% for key, value in messages.items() %}
+				<div class="warning"><p> • {{ value[0] }}</p></div>
+				{% endfor %}{% endif %}{% endif %}
+				
+				{% if not error %}{% if thickness %}
+				<div class="info">Liner Thickness = {{ thickness }}
+				{% if flow_change %}
+				<br>{{ flow_change }}
+				{% endif %}
+				</div>
+				{% endif %}{% endif %}
+
+			</div>
+		</fieldset>
+		</div>
+		<div class="row2">
+		<fieldset class="cola">
+			<legend>Optional Inputs
+			</legend>
+			<p>
+				<label>Elasticity Modulus
+				</label>
+				{% if error %}{% if error["design_modulus"] %}
+				<input name="design_modulus" type="text" class="medium errorbox" placeholder="250000" value="{{return_vars['design_modulus']}}" onblur="error_border_remove('design_modulus')"/>
+				{% else %}{% if warning %}{% if warning["design_modulus"] %}
+				<input name="design_modulus" type="text" class="medium warningbox" placeholder="250000" value="{{return_vars['design_modulus']}}" onblur="error_border_remove('design_modulus')"/>
+				{% else %}
+				<input name="design_modulus" type="text" class="medium noalert" placeholder="250000" value="{{return_vars['design_modulus']}}"/>
+				{% endif %}{% else %}
+				<input name="design_modulus" type="text" class="medium noalert" placeholder="250000" value="{{return_vars['design_modulus']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["design_modulus"] %}
+				<input name="design_modulus" type="text" class="medium warningbox" placeholder="250000" value="{{return_vars['design_modulus']}}" onblur="error_border_remove('design_modulus')"/>
+				{% else %}
+				<input name="design_modulus" type="text" class="medium noalert" placeholder="250000" value="{{return_vars['design_modulus']}}"/>
+				{% endif %}{% else %}
+				<input name="design_modulus" type="text" class="medium noalert" placeholder="250000" value="{{return_vars['design_modulus']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>CIPP Design Modulus of Elasticity</strong>
+					</br>
+					Enter the modulus of elasticity in psi from the manufacturer. ASTM F1216 requires a minimum 
+					value of 250,000 psi as tested by ASTM D790. NASSCO recommends using 400,000 psi for enhanced composites.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Flexural Strength
+				</label>
+				{% if error %}{% if error["design_flexural_strength"] %}
+				<input name="design_flexural_strength" type="text" class="medium errorbox" placeholder="4500" value="{{return_vars['design_flexural_strength']}}" onblur="error_border_remove('design_flexural_strength')"/>
+				{% else %}{% if warning %}{% if warning["design_flexural_strength"] %}
+				<input name="design_flexural_strength" type="text" class="medium warningbox" placeholder="4500" value="{{return_vars['design_flexural_strength']}}" onblur="error_border_remove('design_flexural_strength')"/>
+				{% else %}
+				<input name="design_flexural_strength" type="text" class="medium noalert" placeholder="4500" value="{{return_vars['design_flexural_strength']}}"/>
+				{% endif %}{% else %}
+				<input name="design_flexural_strength" type="text" class="medium noalert" placeholder="4500" value="{{return_vars['design_flexural_strength']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["design_flexural_strength"] %}
+				<input name="design_flexural_strength" type="text" class="medium warningbox" placeholder="4500" value="{{return_vars['design_flexural_strength']}}" onblur="error_border_remove('design_flexural_strength')"/>
+				{% else %}
+				<input name="design_flexural_strength" type="text" class="medium noalert" placeholder="4500" value="{{return_vars['design_flexural_strength']}}"/>
+				{% endif %}{% else %}
+				<input name="design_flexural_strength" type="text" class="medium noalert" placeholder="4500" value="{{return_vars['design_flexural_strength']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>CIPP Design Flexural Strength</strong>
+					</br>
+					Enter the design flexural strength in psi as provided by the manufactureer. ASTM F1216 has set a minimum 
+					value for field inspection of 4,500 psi as tested by ASTM D790. NASSCO recommends using 4,500 psi for standard 
+					and enhanced composites.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Safety Factor
+				</label>
+				{% if error %}{% if error["safety_factor"] %}
+					<input name="safety_factor" type="text" maxlength="3" class="short errorbox" placeholder="2" value="{{return_vars['safety_factor']}}" onblur="error_border_remove('safety_factor')"/>
+				{% else %}{% if warning %}{% if warning["safety_factor"] %}
+					<input name="safety_factor" type="text" maxlength="3" class="short warningbox" placeholder="2" value="{{return_vars['safety_factor']}}" onblur="error_border_remove('safety_factor')"/>
+				{% else %}
+					<input name="safety_factor" type="text" maxlength="3" class="short noalert" placeholder="2" value="{{return_vars['safety_factor']}}"/>
+				{% endif %}{% else %}
+					<input name="safety_factor" type="text" maxlength="3" class="short noalert" placeholder="2" value="{{return_vars['safety_factor']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["safety_factor"] %}
+					<input name="safety_factor" type="text" maxlength="3" class="short warningbox" placeholder="2" value="{{return_vars['safety_factor']}}" onblur="error_border_remove('safety_factor')"/>
+				{% else %}
+					<input name="safety_factor" type="text" maxlength="3" class="short noalert" placeholder="2" value="{{return_vars['safety_factor']}}"/>
+				{% endif %}{% else %}
+					<input name="safety_factor" type="text" maxlength="3" class="short noalert" placeholder="2" value="{{return_vars['safety_factor']}}"/>
+				{% endif %}{% endif %}				
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Factor of Safety</strong>
+					</br>
+					Enter the factor of safety to be used for the design. NASSCO and ASTM recommend a minimum 2.0 F.S. for all applications.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Retention Factor
+				</label>
+				{% if error %}{% if error["ret_factor"] %}
+				<input name="ret_factor" type="text" maxlength="3" class="short errorbox" placeholder="50" value="{{return_vars['ret_factor']}}" onblur="error_border_remove('ret_factor')"/>
+				{% else %}{% if warning %}{% if warning["ret_factor"] %}
+				<input name="ret_factor" type="text" maxlength="3" class="short warningbox" placeholder="50" value="{{return_vars['ret_factor']}}" onblur="error_border_remove('ret_factor')"/>
+				{% else %}
+				<input name="ret_factor" type="text" maxlength="3" class="short noalert" placeholder="50" value="{{return_vars['ret_factor']}}"/>
+				{% endif %}{% else %}
+				<input name="ret_factor" type="text" maxlength="3" class="short noalert" placeholder="50" value="{{return_vars['ret_factor']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["ret_factor"] %}
+				<input name="ret_factor" type="text" maxlength="3" class="short warningbox" placeholder="50" value="{{return_vars['ret_factor']}}" onblur="error_border_remove('ret_factor')"/>
+				{% else %}
+				<input name="ret_factor" type="text" maxlength="3" class="short noalert" placeholder="50" value="{{return_vars['ret_factor']}}"/>
+				{% endif %}{% else %}
+				<input name="ret_factor" type="text" maxlength="3" class="short noalert" placeholder="50" value="{{return_vars['ret_factor']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Factor of Safety</strong>
+					</br>
+					Enter the long-term retention factor as a percent of the design strength. This value is determined by long-term 
+					tests or as approved by the owner. The typical range for long-term retention is 50%—75%.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Ovality
+				</label>
+				{% if error %}{% if error["ovality"] %}
+				<input name="ovality" type="text" maxlength="3" class="short errorbox" placeholder="3" value="{{return_vars['ovality']}}" onblur="error_border_remove('ovality')"/>
+				{% else %}{% if warning %}{% if warning["ovality"] %}
+				<input name="ovality" type="text" maxlength="3" class="short warningbox" placeholder="3" value="{{return_vars['ovality']}}" onblur="error_border_remove('ovality')"/>
+				{% else %}
+				<input name="ovality" type="text" maxlength="3" class="short noalert" placeholder="3" value="{{return_vars['ovality']}}"/>
+				{% endif %}{% else %}
+				<input name="ovality" type="text" maxlength="3" class="short noalert" placeholder="3" value="{{return_vars['ovality']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["ovality"] %}
+				<input name="ovality" type="text" maxlength="3" class="short warningbox" placeholder="3" value="{{return_vars['ovality']}}" onblur="error_border_remove('ovality')"/>
+				{% else %}
+				<input name="ovality" type="text" maxlength="3" class="short noalert" placeholder="3" value="{{return_vars['ovality']}}"/>
+				{% endif %}{% else %}
+				<input name="ovality" type="text" maxlength="3" class="short noalert" placeholder="3" value="{{return_vars['ovality']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Ovality</strong>
+					</br>
+					Enter the percent ovality of the host pipe as determined by the following equation.</br>
+					<img src="../static/images/ovality.png" width="240" style="float:right;"/>
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Enhancement Factor
+				</label>
+				{% if error %}{% if error["enhancement_factor"] %}
+				<input name="enhancement_factor" type="text" maxlength="3" class="short errorbox" placeholder="7.0" value="{{return_vars['enhancement_factor']}}" onblur="error_border_remove('enhancement_factor')"/>
+				{% else %}{% if warning %}{% if warning["enhancement_factor"] %}
+				<input name="enhancement_factor" type="text" maxlength="3" class="short warningbox" placeholder="7.0" value="{{return_vars['enhancement_factor']}}" onblur="error_border_remove('enhancement_factor')"/>
+				{% else %}
+				<input name="enhancement_factor" type="text" maxlength="3" class="short noalert" placeholder="7.0" value="{{return_vars['enhancement_factor']}}"/>
+				{% endif %}{% else %}
+				<input name="enhancement_factor" type="text" maxlength="3" class="short noalert" placeholder="7.0" value="{{return_vars['enhancement_factor']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["enhancement_factor"] %}
+				<input name="enhancement_factor" type="text" maxlength="3" class="short warningbox" placeholder="7.0" value="{{return_vars['enhancement_factor']}}" onblur="error_border_remove('enhancement_factor')"/>
+				{% else %}
+				<input name="enhancement_factor" type="text" maxlength="3" class="short noalert" placeholder="7.0" value="{{return_vars['enhancement_factor']}}"/>
+				{% endif %}{% else %}
+				<input name="enhancement_factor" type="text" maxlength="3" class="short noalert" placeholder="7.0" value="{{return_vars['enhancement_factor']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Enhancement Factor</strong>
+					</br>
+					The enhancement factor (K) is used for design in partially deteriorated conditions. ASTM recommends a minimum value of
+					7.0 where there is full support of the existing pipe. NASSCO designates that 7.0 shall be used for partially deteriorated
+					design.
+					</span>
+				</div>
+			</p>
+		</fieldset>
+		<fieldset class="colb">
+			<legend> Additional Information
+			</legend>
+			<p>
+				<label>Soil Density
+				</label>
+				{% if error %}{% if error["soil_density"] %}
+				<input name="soil_density" type="text" maxlength="3" class="medium errorbox" placeholder="140" value="{{return_vars['soil_density']}}" onblur="error_border_remove('soil_density')"/>
+				{% else %}{% if warning %}{% if warning["soil_density"] %}
+				<input name="soil_density" type="text" maxlength="3" class="medium warningbox" placeholder="140" value="{{return_vars['soil_density']}}" onblur="error_border_remove('soil_density')"/>
+				{% else %}
+				<input name="soil_density" type="text" maxlength="3" class="medium noalert" placeholder="140" value="{{return_vars['soil_density']}}"/>
+				{% endif %}{% else %}
+				<input name="soil_density" type="text" maxlength="3" class="medium noalert" placeholder="140" value="{{return_vars['soil_density']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["soil_density"] %}
+				<input name="soil_density" type="text" maxlength="3" class="medium warningbox" placeholder="140" value="{{return_vars['soil_density']}}" onblur="error_border_remove('soil_density')"/>
+				{% else %}
+				<input name="soil_density" type="text" maxlength="3" class="medium noalert" placeholder="140" value="{{return_vars['soil_density']}}"/>
+				{% endif %}{% else %}
+				<input name="soil_density" type="text" maxlength="3" class="medium noalert" placeholder="140" value="{{return_vars['soil_density']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Soil Density</strong>
+					</br>
+					Enter the specific weight of the soil in lbs per cubic foot (pcf). 
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Poisson's Ratio
+				</label>
+				{% if error %}{% if error["poissons"] %}
+				<input name="poissons" type="text" maxlength="4" class="medium errorbox" placeholder="0.3" value="{{return_vars['poissons']}}" onblur="error_border_remove('poissons')"/>
+				{% else %}{% if warning %}{% if warning["poissons"] %}
+				<input name="poissons" type="text" maxlength="4" class="medium warningbox" placeholder="0.3" value="{{return_vars['poissons']}}" onblur="error_border_remove('poissons')"/>
+				{% else %}
+				<input name="poissons" type="text" maxlength="4" class="medium noalert" placeholder="0.3" value="{{return_vars['poissons']}}"/>
+				{% endif %}{% else %}
+				<input name="poissons" type="text" maxlength="4" class="medium noalert" placeholder="0.3" value="{{return_vars['poissons']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["poissons"] %}
+				<input name="poissons" type="text" maxlength="4" class="medium warningbox" placeholder="0.3" value="{{return_vars['poissons']}}" onblur="error_border_remove('poissons')"/>
+				{% else %}
+				<input name="poissons" type="text" maxlength="4" class="medium noalert" placeholder="0.3" value="{{return_vars['poissons']}}"/>
+				{% endif %}{% else %}
+				<input name="poissons" type="text" maxlength="4" class="medium noalert" placeholder="0.3" value="{{return_vars['poissons']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Poisson's Ratio</strong>
+					</br>
+					Poisson's Ratio should be taken as 0.3 unless otherwise determined by the engineer.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Soil Modulus
+				</label>
+				{% if error %}{% if error["soil_mod"] %}
+				<input name="soil_mod" type="text" maxlength="4" class="medium errorbox" placeholder="700" value="{{return_vars['soil_mod']}}" onblur="error_border_remove('soil_mod')"/>
+				{% else %}{% if warning %}{% if warning["soil_mod"] %}
+				<input name="soil_mod" type="text" maxlength="4" class="medium warningbox" placeholder="700" value="{{return_vars['soil_mod']}}" onblur="error_border_remove('soil_mod')"/>
+				{% else %}
+				<input name="soil_mod" type="text" maxlength="4" class="medium noalert" placeholder="700" value="{{return_vars['soil_mod']}}"/>
+				{% endif %}{% else %}
+				<input name="soil_mod" type="text" maxlength="4" class="medium noalert" placeholder="700" value="{{return_vars['soil_mod']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["soil_mod"] %}
+				<input name="soil_mod" type="text" maxlength="4" class="medium warningbox" placeholder="700" value="{{return_vars['soil_mod']}}" onblur="error_border_remove('soil_mod')"/>
+				{% else %}
+				<input name="soil_mod" type="text" maxlength="4" class="medium noalert" placeholder="700" value="{{return_vars['soil_mod']}}"/>
+				{% endif %}{% else %}
+				<input name="soil_mod" type="text" maxlength="4" class="medium noalert" placeholder="700" value="{{return_vars['soil_mod']}}"/>
+				{% endif %}{% endif %}
+				
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Soil Modulus</strong>
+					</br>
+					Enter the modulus of soil reaction in psi. Typical values range from 700 to 1500 psi. Use 700 psi for unknown conditions
+					(conservative). Use 1000 under travelled surfaces consolidated over time. Use 1500 for deep pipe in stable soils.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Host 'n'
+				</label>
+				{% if error %}{% if error["n_host"] %}
+				<input name="n_host" type="text" maxlength="5" class="medium errorbox" placeholder="0.013" value="{{return_vars['n_host']}}" onblur="error_border_remove('n_host')"/>
+				{% else %}{% if warning %}{% if warning["n_host"] %}
+				<input name="n_host" type="text" maxlength="5" class="medium warningbox" placeholder="0.013" value="{{return_vars['n_host']}}" onblur="error_border_remove('n_host')"/>
+				{% else %}
+				<input name="n_host" type="text" maxlength="5" class="medium noalert" placeholder="0.013" value="{{return_vars['n_host']}}"/>
+				{% endif %}{% else %}
+				<input name="n_host" type="text" maxlength="5" class="medium noalert" placeholder="0.013" value="{{return_vars['n_host']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["n_host"] %}
+				<input name="n_host" type="text" maxlength="5" class="medium warningbox" placeholder="0.013" value="{{return_vars['n_host']}}" onblur="error_border_remove('n_host')"/>
+				{% else %}
+				<input name="n_host" type="text" maxlength="5" class="medium noalert" placeholder="0.013" value="{{return_vars['n_host']}}"/>
+				{% endif %}{% else %}
+				<input name="n_host" type="text" maxlength="5" class="medium noalert" placeholder="0.013" value="{{return_vars['n_host']}}"/>
+				{% endif %}{% endif %}
+				
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Manning's n</strong>
+					</br>
+					Enter the Manning's n-value of the host pipe to determine changes in flow capacity.
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Liner 'n'
+				</label>
+				{% if error %}{% if error["n_liner"] %}
+				<input name="n_liner" type="text" maxlength="5" class="medium errorbox" placeholder="0.010" value="{{return_vars['n_liner']}}" onblur="error_border_remove('n_liner')"/>
+				{% else %}{% if warning %}{% if warning["n_liner"] %}
+				<input name="n_liner" type="text" maxlength="5" class="medium warningbox" placeholder="0.010" value="{{return_vars['n_liner']}}" onblur="error_border_remove('n_liner')"/>
+				{% else %}
+				<input name="n_liner" type="text" maxlength="5" class="medium noalert" placeholder="0.010" value="{{return_vars['n_liner']}}"/>
+				{% endif %}{% else %}
+				<input name="n_liner" type="text" maxlength="5" class="medium noalert" placeholder="0.010" value="{{return_vars['n_liner']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["n_liner"] %}
+				<input name="n_liner" type="text" maxlength="5" class="medium warningbox" placeholder="0.010" value="{{return_vars['n_liner']}}" onblur="error_border_remove('n_liner')"/>
+				{% else %}
+				<input name="n_liner" type="text" maxlength="5" class="medium noalert" placeholder="0.010" value="{{return_vars['n_liner']}}"/>
+				{% endif %}{% else %}
+				<input name="n_liner" type="text" maxlength="5" class="medium noalert" placeholder="0.010" value="{{return_vars['n_liner']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Manning's n</strong>
+					</br>
+					Enter the Manning's n-value of the CIPP lined pipe to determine changes in flow capacity.</br>
+					Typical value used is 0.010
+					</span>
+				</div>
+			</p>
+			<p>
+				<label>Host Pipe Age
+				</label>
+				{% if error %}{% if error["host_age"] %}
+				<input name="host_age" type="text" maxlength="4" class="medium errorbox" placeholder="50" value="{{return_vars['host_age']}}" onblur="error_border_remove('host_age')"/>
+				{% else %}{% if warning %}{% if warning["host_age"] %}
+				<input name="host_age" type="text" maxlength="4" class="medium warningbox" placeholder="50" value="{{return_vars['host_age']}}" onblur="error_border_remove('host_age')"/>
+				{% else %}
+				<input name="host_age" type="text" maxlength="4" class="medium noalert" placeholder="50" value="{{return_vars['host_age']}}"/>
+				{% endif %}{% else %}
+				<input name="host_age" type="text" maxlength="4" class="medium noalert" placeholder="50" value="{{return_vars['host_age']}}"/>
+				{% endif %}{% endif %}{% else %}{% if warning %}{% if warning["host_age"] %}
+				<input name="host_age" type="text" maxlength="4" class="medium warningbox" placeholder="50" value="{{return_vars['host_age']}}" onblur="error_border_remove('host_age')"/>
+				{% else %}
+				<input name="host_age" type="text" maxlength="4" class="medium noalert" placeholder="50" value="{{return_vars['host_age']}}"/>
+				{% endif %}{% else %}
+				<input name="host_age" type="text" maxlength="4" class="medium noalert" placeholder="50" value="{{return_vars['host_age']}}"/>
+				{% endif %}{% endif %}
+				<div class="tooltip">&nbsp
+					<span>
+					<img class="callout" src="../static/images/callout.gif"/>
+					<strong>Host Pipe Age</strong>
+					</br>
+					Enter the approximate age, in years, of the host pipe.
+					</span>
+				</div>
+			</p>
+		</fieldset>
+		</div>
+		<div class="row3">
+		<fieldset class="bottom">
+			<legend>Terms
+			</legend>
+			<p>Information provided is for estimation purposes only.</p>
+			<p>Visit me on Github!<p>
+		</fieldset>
+		<fieldset class="colbutton">
+			<div><button class="button">Calculate &raquo;</button></div>
+		</fieldset>
+		</div>
+	</form>
+</body>
+</html>
+
+
+
+
+
