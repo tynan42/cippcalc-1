@@ -56,5 +56,5 @@ def run_cippcalc():
         return render_template('index.html', thickness='Error', return_vars=submitted_data, error=hard_error_msg, warning=soft_error_msg, messages=soft_error_msg )
 
 if __name__ == '__main__':
-    app.debug = True
+    #app.debug = True
     app.run()
