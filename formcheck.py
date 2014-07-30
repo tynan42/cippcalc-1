@@ -18,13 +18,13 @@ class ErrorValidation(Form):
                         validators.NumberRange(min=0, max=100, message='Groundwater level out of range.'),
                         validators.Optional()])
     design_modulus = FloatField('Design Elastic Modulus', [
-                        validators.NumberRange(min=1, max=9999999 message='Elastic modulus out of range.'),
+                        validators.NumberRange(min=1, max=9999999, message='Elastic modulus out of range.'),
                         validators.Optional()])
     design_flexural_strength = FloatField('Design Flexural Strength', [
-                        validators.NumberRange(min=1, max=99999 message='Design flexural strength out of range.'),
+                        validators.NumberRange(min=1, max=99999, message='Design flexural strength out of range.'),
                         validators.Optional()])
     safety_factor = FloatField('Safety Factor', [
-                        validators.NumberRange(min=0.001, max=20 message='Safety factor out of range.'),
+                        validators.NumberRange(min=0.001, max=20, message='Safety factor out of range.'),
                         validators.Optional()])
     ret_factor = FloatField('Long Term Retention Factor', [
                         validators.NumberRange(min=1, max=100, message='Retention out of range.'),
@@ -36,7 +36,7 @@ class ErrorValidation(Form):
                         validators.NumberRange(min=1, max=20, message='Enhancement Factor out of range.'),
                         validators.Optional()])
     soil_density = FloatField('Soil Density', [
-                        validators.NumberRange(min=1, max=999 message='Soil density out of range.'),
+                        validators.NumberRange(min=1, max=999, message='Soil density out of range.'),
                         validators.Optional()])
     poissons = FloatField('Poisson\'s Ratio', [
                         validators.NumberRange(min=0, max=0.5, message='Poisson\'s Ratio out of range.'),
