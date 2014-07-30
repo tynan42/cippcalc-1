@@ -35,7 +35,7 @@ class LinerManager(object):
             'safety_factor':2.0, 'ret_factor':50, 'ovality':3.0,
             'enhancement_factor':7.0, 'gw_level':0.0, 'soil_density':140,
             'poissons':0.3, 'soil_mod':700, 'n_host':0.013, 'n_liner':0.010,
-            'host_age':45
+            'host_age':50
             }
         
         for key, value in vardict.items():
