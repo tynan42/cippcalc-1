@@ -201,15 +201,21 @@ input:focus, select:focus{
 /* BEGIN POPUP TOOLTIP CSS*/
 .tooltip {
 	outline:none;
-    width:35px;
+    width:65px;
     float: left;
-	vertical-align: middle;
+	vertical-align: top;
     text-align: left;
     margin-right: 6px;
     margin-top:0px;
-	background: url('../images/toolbar_get_info.png') no-repeat center;
+	background: url('../images/toolbar_get_info.png') no-repeat top;
 	background-size: 15px;
 }
+.tooltip.shorter{
+	width: 35px;
+}
+.tooltip.unitsbig{
+	width: 65px;
+}*/
 .tooltip strong {line-height:30px; font-weight:bold; font-size: 16px;}
 .tooltip:hover {text-decoration:none;} 
 .tooltip span {

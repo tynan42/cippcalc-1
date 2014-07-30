@@ -35,7 +35,7 @@
 					<option value="Fully Deteriorated"/>
 					<option value="Partially Deteriorated"/>
 					</datalist>
-				<div class="tooltip">&nbsp
+				<div class="tooltip shorter">&nbsp
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Design Condition</strong>
@@ -63,7 +63,7 @@
 					<option value="Highway"/>
 					<option value="Rail"/>
 					<option value="Airport"/>
-				<div class="tooltip">&nbsp
+				<div class="tooltip shorter">&nbsp
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Pipe Location</strong>
@@ -95,7 +95,7 @@
 				{% endif %}{% else %}
 				<input name="host_diameter" type="number" min="4" max="96" class="medium noalert" value="{{ return_vars['host_diameter'] }}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip"> in
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Inside Diameter of Host Pipe</strong>
@@ -123,7 +123,7 @@
 				{% endif %}{% else %}
 				<input name="surface_to_invert" type="text" class="medium noalert" value="{{ return_vars['surface_to_invert'] }}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip"> ft
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Depth from Surface to Invert</strong>
@@ -151,7 +151,7 @@
 				{% endif %}{% else %}
 				<input name="gw_level" type="text" class="medium noalert" value="{{return_vars['gw_level']}}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip"> ft
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Depth to Groundwater Table</strong>
@@ -216,7 +216,7 @@
 				{% endif %}{% else %}
 				<input name="design_modulus" type="text" class="medium noalert" placeholder="250000" value="{{return_vars['design_modulus']}}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip"> psi
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>CIPP Design Modulus of Elasticity</strong>
@@ -244,7 +244,7 @@
 				{% endif %}{% else %}
 				<input name="design_flexural_strength" type="text" class="medium noalert" placeholder="4500" value="{{return_vars['design_flexural_strength']}}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip"> psi
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>CIPP Design Flexural Strength</strong>
@@ -300,10 +300,10 @@
 				{% endif %}{% else %}
 				<input name="ret_factor" type="text" maxlength="4" class="short noalert" placeholder="50" value="{{return_vars['ret_factor']}}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip">%
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
-					<strong>Factor of Safety</strong>
+					<strong>Long-Term Retention</strong>
 					</br>
 					Enter the long-term retention factor as a percent of the design strength. This value is determined by long-term 
 					tests or as approved by the owner. The typical range for long-term retention is 50%—75%.
@@ -328,7 +328,7 @@
 				{% endif %}{% else %}
 				<input name="ovality" type="text" maxlength="4" class="short noalert" placeholder="3" value="{{return_vars['ovality']}}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip">%
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Ovality</strong>
@@ -389,7 +389,7 @@
 				{% endif %}{% else %}
 				<input name="soil_density" type="text" maxlength="4" class="medium noalert" placeholder="140" value="{{return_vars['soil_density']}}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip"> psf
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Soil Density</strong>
@@ -444,7 +444,7 @@
 				<input name="soil_mod" type="text" maxlength="4" class="medium noalert" placeholder="700" value="{{return_vars['soil_mod']}}"/>
 				{% endif %}{% endif %}
 				
-				<div class="tooltip">&nbsp
+				<div class="tooltip"> psi
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Soil Modulus</strong>
@@ -528,7 +528,7 @@
 				{% endif %}{% else %}
 				<input name="host_age" type="text" maxlength="4" class="medium noalert" placeholder="50" value="{{return_vars['host_age']}}"/>
 				{% endif %}{% endif %}
-				<div class="tooltip">&nbsp
+				<div class="tooltip"> yrs
 					<span>
 					<img class="callout" src="../static/images/callout.gif"/>
 					<strong>Host Pipe Age</strong>
