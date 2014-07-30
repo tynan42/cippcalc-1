@@ -15,16 +15,16 @@ class ErrorValidation(Form):
                         validators.InputRequired(message='Missing required field.'),
                         validators.NumberRange(min=-1, max=50, message='Depth to invert be a number between 0 and 50 feet.')])
     gw_level = FloatField('Groundwater Depth', [
-                        validators.NumberRange(min=0, message='Groundwater level out of range.'),
+                        validators.NumberRange(min=0, max=100, message='Groundwater level out of range.'),
                         validators.Optional()])
     design_modulus = FloatField('Design Elastic Modulus', [
-                        validators.NumberRange(min=1, message='Elastic modulus out of range.'),
+                        validators.NumberRange(min=1, max=9999999 message='Elastic modulus out of range.'),
                         validators.Optional()])
     design_flexural_strength = FloatField('Design Flexural Strength', [
-                        validators.NumberRange(min=1, message='Design flexural strength out of range.'),
+                        validators.NumberRange(min=1, max=99999 message='Design flexural strength out of range.'),
                         validators.Optional()])
     safety_factor = FloatField('Safety Factor', [
-                        validators.NumberRange(min=0.001, message='Safety factor out of range.'),
+                        validators.NumberRange(min=0.001, max=20 message='Safety factor out of range.'),
                         validators.Optional()])
     ret_factor = FloatField('Long Term Retention Factor', [
                         validators.NumberRange(min=1, max=100, message='Retention out of range.'),
@@ -33,16 +33,16 @@ class ErrorValidation(Form):
                         validators.NumberRange(min=0, max=100, message='Ovality out of range.'),
                         validators.Optional()])
     enhancement_factor = FloatField('Enhancement Factor', [
-                        validators.NumberRange(min=1, max=100, message='Enhancement Factor out of range.'),
+                        validators.NumberRange(min=1, max=20, message='Enhancement Factor out of range.'),
                         validators.Optional()])
     soil_density = FloatField('Soil Density', [
-                        validators.NumberRange(min=1, message='Soil density out of range.'),
+                        validators.NumberRange(min=1, max=999 message='Soil density out of range.'),
                         validators.Optional()])
     poissons = FloatField('Poisson\'s Ratio', [
                         validators.NumberRange(min=0, max=0.5, message='Poisson\'s Ratio out of range.'),
                         validators.Optional()])
     soil_mod = FloatField('Modulus of Soil Reaction', [
-                        validators.NumberRange(min=1, message='Soil Modulus out of range.'),
+                        validators.NumberRange(min=1, max=3000, message='Soil Modulus out of range.'),
                         validators.Optional()])
     n_host = FloatField('Host Manning\'s', [
                         validators.NumberRange(min=0.005, max=0.20, message='Host Manning\'s out of range.'),
@@ -51,7 +51,7 @@ class ErrorValidation(Form):
                         validators.NumberRange(min=0.005, max=0.20, message='Liner Manning\'s out of range.'),
                         validators.Optional()])
     host_age = FloatField('Host Pipe Age', [
-                        validators.NumberRange(min=0, message='Host Pipe Age out of range.'),
+                        validators.NumberRange(min=0, max=500, message='Host Pipe Age out of range.'),
                         validators.Optional()])
 class WarningValidation(Form):
     design_modulus = FloatField('Design Elastic Modulus', [
@@ -78,6 +78,6 @@ class WarningValidation(Form):
                         values. Ensure that the host pipe exists in Earth.'''),
                         validators.Optional()])
     soil_mod = FloatField('Modulus of Soil Reaction', [
-                        validators.NumberRange(min=700, max=1500, message='''Soil Modulus out of normal \
+                        validators.NumberRange(min=700, max=1500, message='''Soil Modulus beyond normal \
                         range'''),
                         validators.Optional()])                   
