@@ -15,7 +15,7 @@ class ErrorValidation(Form):
                         validators.InputRequired(message='Missing required field.'),
                         validators.NumberRange(min=-1, max=50, message='Depth to invert be a number between 0 and 50 feet.')])
     gw_level = FloatField('Groundwater Depth', [
-                        validators.NumberRange(min=0, max=100, message='Groundwater level out of range.'),
+                        validators.NumberRange(min=0, max=1000, message='Groundwater level out of range.'),
                         validators.Optional()])
     design_modulus = FloatField('Design Elastic Modulus', [
                         validators.NumberRange(min=1, max=9999999, message='Elastic modulus out of range.'),
