@@ -1,6 +1,7 @@
 Django==1.6.5
 Flask==0.10.1
 Flask-WTF==0.10.0
+httplib2==0.9
 Jinja2==2.7.3
 WTForms==2.0.1
 Werkzeug==0.9.6
